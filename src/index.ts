@@ -7,6 +7,5 @@ export function main(): void {
   console.log("Welcome to your TypeScript project!");
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  main();
-}
+// Run main function if this file is executed directly
+main();
