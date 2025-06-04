@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import type { FilterState, ParameterUpdate, ParameterType } from '../types';
+import type { FilterState, ParameterUpdate } from '../types';
 
 const defaultFilters: FilterState = {
   networks: [],
@@ -116,7 +116,6 @@ export function useFiltersStandalone(updates: ParameterUpdate[]) {
 
 // Helper function
 function isWithinTimeRange(timestamp: Date, timeRange: FilterState['timeRange']): boolean {
-  const now = new Date();
   const updateTime = new Date(timestamp);
   
   if (timeRange.preset === 'custom') {

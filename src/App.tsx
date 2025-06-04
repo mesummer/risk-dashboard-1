@@ -5,7 +5,7 @@ import { mockUpdates, getDashboardStats } from './data/mockData';
 import type { ParameterUpdate } from './types';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const stats = getDashboardStats();
 
   const handleUpdateClick = (update: ParameterUpdate) => {

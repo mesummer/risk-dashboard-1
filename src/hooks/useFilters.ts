@@ -176,7 +176,6 @@ function serializeTimeRange(timeRange: TimeRange): string {
 }
 
 function isWithinTimeRange(timestamp: Date, timeRange: TimeRange): boolean {
-  const now = new Date();
   const updateTime = new Date(timestamp);
   
   if (timeRange.preset === 'custom') {
