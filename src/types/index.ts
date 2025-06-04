@@ -10,6 +10,15 @@ export interface ParameterUpdate {
   transactionHash: string;
   status: 'Success' | 'Failed' | 'Pending';
   initiator?: string;
+  // Enhanced data for detailed views
+  blockNumber?: number;
+  gasUsed?: string;
+  gasPrice?: string;
+  reason?: string;
+  impact?: Impact;
+  marketContext?: MarketContext;
+  relatedUpdates?: string[];
+  validationRules?: ValidationRule[];
 }
 
 export interface Asset {
@@ -76,4 +85,54 @@ export interface SearchSuggestion {
   type: 'asset' | 'parameter' | 'network' | 'hash';
   value: string;
   label: string;
+}
+
+export interface Impact {
+  riskLevel: 'Low' | 'Medium' | 'High' | 'Critical';
+  description: string;
+  affectedUsers?: number;
+  protocolTvl?: string;
+  estimatedImpact?: string;
+}
+
+export interface MarketContext {
+  priceChange24h?: number;
+  volume24h?: string;
+  marketCap?: string;
+  totalSupply?: string;
+  utilizationRate?: number;
+  averageApr?: number;
+}
+
+export interface ValidationRule {
+  rule: string;
+  status: 'Passed' | 'Failed' | 'Warning';
+  description: string;
+}
+
+export interface ChartDataPoint {
+  date: Date;
+  count: number;
+  manual: number;
+  automated: number;
+}
+
+export interface HeatmapDataPoint {
+  asset: string;
+  network: string;
+  count: number;
+  lastUpdate: Date;
+}
+
+export type ViewMode = 'timeline' | 'heatmap' | 'charts';
+
+export interface StatsData {
+  totalUpdates: number;
+  totalToday: number;
+  mostActiveAsset: { symbol: string; count: number };
+  mostActiveNetwork: { name: string; count: number };
+  averageTimeBetween: number; // in hours
+  successRate: number;
+  automationRate: number;
+  criticalUpdates: number;
 }

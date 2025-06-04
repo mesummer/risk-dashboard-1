@@ -17,3 +17,19 @@ export { EmptyState } from './states/EmptyState';
 
 // UI components
 export { Badge } from './ui/Badge';
+
+// Dashboard components
+export { MainDashboard } from './dashboard/MainDashboard';
+
+// Navigation components
+export { ViewToggle, Breadcrumb, ViewHeader } from './navigation/ViewToggle';
+
+// Chart components
+export { UpdateChart } from './charts/UpdateChart';
+export { HeatmapView } from './charts/HeatmapView';
+
+// Stats components
+export { StatsCards, DetailedStats } from './stats/StatsCards';
+
+// Modal components
+export { UpdateDetailModal } from './modals/UpdateDetailModal';

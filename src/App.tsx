@@ -1,26 +1,19 @@
 import { useState } from 'react';
 import { Header } from './components/layout/Header';
-import { EnhancedUpdatesTimeline } from './components/updates/EnhancedUpdatesTimeline';
+import { MainDashboard } from './components/dashboard/MainDashboard';
 import { mockUpdates, getDashboardStats } from './data/mockData';
-import type { ParameterUpdate } from './types';
 
 function App() {
   const [isLoading] = useState(false);
   const stats = getDashboardStats();
-
-  const handleUpdateClick = (update: ParameterUpdate) => {
-    // For now, just log the update. In a real app, this could open a modal or navigate to a detail page
-    console.log('Selected update:', update);
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header stats={stats} />
       
       <main className="flex-1 flex overflow-hidden">
-        <EnhancedUpdatesTimeline 
+        <MainDashboard 
           updates={mockUpdates} 
-          onUpdateClick={handleUpdateClick}
           isLoading={isLoading}
         />
       </main>

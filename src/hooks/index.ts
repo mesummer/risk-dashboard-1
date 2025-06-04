@@ -1,1 +1,2 @@
-export { useFilters } from './useFilters';
+export { useFilters, useFiltersStandalone } from './useFilters';
+export { useViewState } from './useViewState';

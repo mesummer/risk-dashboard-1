@@ -199,3 +199,109 @@ function isWithinTimeRange(timestamp: Date, timeRange: TimeRange): boolean {
   
   return updateTime >= cutoffTime;
 }
+
+// Standalone version for MainDashboard that doesn't sync with URL
+export function useFiltersStandalone(updates: ParameterUpdate[]) {
+  const [filters, setFilters] = useState<FilterState>(defaultFilters);
+
+  // Filter updates based on current filters
+  const filteredUpdates = useMemo(() => {
+    return updates.filter(update => {
+      // Network filter
+      if (filters.networks.length > 0 && !filters.networks.includes(update.network.id)) {
+        return false;
+      }
+
+      // Asset filter
+      if (filters.assets.length > 0 && !filters.assets.includes(update.asset.symbol)) {
+        return false;
+      }
+
+      // Parameter filter
+      if (filters.parameters.length > 0 && !filters.parameters.includes(update.parameter)) {
+        return false;
+      }
+
+      // Steward type filter
+      if (filters.stewardType !== 'all' && update.stewardType !== filters.stewardType) {
+        return false;
+      }
+
+      // Status filter
+      if (filters.status.length > 0 && !filters.status.includes(update.status)) {
+        return false;
+      }
+
+      // Time range filter
+      if (!isWithinTimeRange(update.timestamp, filters.timeRange)) {
+        return false;
+      }
+
+      // Search filter
+      if (filters.search) {
+        const searchLower = filters.search.toLowerCase();
+        const searchFields = [
+          update.asset.symbol,
+          update.asset.name,
+          update.network.name,
+          update.parameter,
+          update.transactionHash,
+          update.stewardType,
+          update.status,
+        ];
+
+        if (!searchFields.some(field => 
+          field.toLowerCase().includes(searchLower)
+        )) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [updates, filters]);
+
+  // Calculate filter options based on all updates
+  const filterOptions = useMemo(() => getFilterOptions(updates), [updates]);
+
+  const hasActiveFilters = useMemo(() => {
+    return (
+      filters.networks.length > 0 ||
+      filters.assets.length > 0 ||
+      filters.parameters.length > 0 ||
+      filters.stewardType !== 'all' ||
+      filters.status.length > 0 ||
+      filters.timeRange.preset !== '30d' ||
+      filters.search !== ''
+    );
+  }, [filters]);
+
+  const clearAllFilters = useCallback(() => {
+    setFilters(defaultFilters);
+  }, []);
+
+  const updateFilter = useCallback(<K extends keyof FilterState>(
+    key: K,
+    value: FilterState[K]
+  ) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  }, []);
+
+  // These would be JSX components - returning null for now
+  const filterPanel = null;
+  const searchBar = null;
+  const filterChips = null;
+
+  return {
+    filters,
+    filteredUpdates,
+    filterOptions,
+    hasActiveFilters,
+    clearAllFilters,
+    updateFilter,
+    setFilters,
+    filterPanel,
+    searchBar,
+    filterChips,
+  };
+}

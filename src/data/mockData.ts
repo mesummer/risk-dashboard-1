@@ -1,4 +1,15 @@
-import type { ParameterUpdate, Asset, Network, ParameterType } from '../types';
+import type { 
+  ParameterUpdate, 
+  Asset, 
+  Network, 
+  ParameterType, 
+  Impact, 
+  MarketContext, 
+  ValidationRule,
+  ChartDataPoint,
+  HeatmapDataPoint,
+  StatsData
+} from '../types';
 
 export const networks: Network[] = [
   { id: 'ethereum', name: 'Ethereum', chainId: 1, icon: '🔷' },
@@ -44,6 +55,12 @@ const generateRandomUpdate = (id: number): ParameterUpdate => {
   const parameter = parameterTypes[Math.floor(Math.random() * parameterTypes.length)];
   const stewardType = Math.random() > 0.6 ? 'Automated' : 'Manual';
   const status = Math.random() > 0.9 ? 'Failed' : Math.random() > 0.95 ? 'Pending' : 'Success';
+  
+  // Generate enhanced data
+  const impact = generateImpact(parameter);
+  const marketContext = generateMarketContext(asset);
+  const validationRules = generateValidationRules(parameter, status);
+  const relatedUpdates = generateRelatedUpdates(id);
   
   // Generate realistic parameter values based on type
   const getParameterValues = (param: ParameterType) => {
@@ -115,6 +132,14 @@ const generateRandomUpdate = (id: number): ParameterUpdate => {
     transactionHash: `0x${Math.random().toString(16).substring(2, 66)}`,
     status,
     initiator: stewardType === 'Manual' ? `0x${Math.random().toString(16).substring(2, 42)}` : undefined,
+    blockNumber: Math.floor(Math.random() * 1000000) + 18000000,
+    gasUsed: `${Math.floor(Math.random() * 200000) + 50000}`,
+    gasPrice: `${(Math.random() * 50 + 20).toFixed(2)} gwei`,
+    reason: generateReason(parameter, stewardType),
+    impact,
+    marketContext,
+    relatedUpdates,
+    validationRules,
   };
 };
 
@@ -135,6 +160,112 @@ export const getTodaysUpdates = (): ParameterUpdate[] => {
   });
 };
 
+// Helper functions for generating enhanced data
+function generateImpact(parameter: ParameterType): Impact {
+  const criticalParams = ['Supply Cap', 'Borrow Cap', 'LTV', 'LT'];
+  const isCritical = criticalParams.includes(parameter);
+  
+  const riskLevels: Impact['riskLevel'][] = isCritical 
+    ? ['Medium', 'High', 'Critical']
+    : ['Low', 'Medium'];
+  
+  const riskLevel = riskLevels[Math.floor(Math.random() * riskLevels.length)];
+  
+  return {
+    riskLevel,
+    description: getImpactDescription(parameter, riskLevel),
+    affectedUsers: Math.floor(Math.random() * 10000) + 100,
+    protocolTvl: `$${(Math.random() * 500 + 50).toFixed(1)}M`,
+    estimatedImpact: `${(Math.random() * 5 + 0.1).toFixed(2)}%`,
+  };
+}
+
+function generateMarketContext(asset: Asset): MarketContext {
+  return {
+    priceChange24h: (Math.random() - 0.5) * 20, // -10% to +10%
+    volume24h: `$${(Math.random() * 100 + 10).toFixed(1)}M`,
+    marketCap: `$${(Math.random() * 1000 + 100).toFixed(1)}M`,
+    totalSupply: `${(Math.random() * 1000000 + 100000).toFixed(0)}`,
+    utilizationRate: Math.random() * 100,
+    averageApr: Math.random() * 15 + 2,
+  };
+}
+
+function generateValidationRules(parameter: ParameterType, status: string): ValidationRule[] {
+  const baseRules = [
+    { rule: 'Range Validation', status: 'Passed' as const, description: 'Value within acceptable range' },
+    { rule: 'Authorization Check', status: 'Passed' as const, description: 'Caller has required permissions' },
+    { rule: 'Time Lock Compliance', status: 'Passed' as const, description: 'Time lock period respected' },
+  ];
+  
+  if (status === 'Failed') {
+    baseRules[Math.floor(Math.random() * baseRules.length)].status = 'Failed';
+  }
+  
+  if (parameter.includes('Cap')) {
+    baseRules.push({
+      rule: 'Liquidity Impact',
+      status: Math.random() > 0.8 ? 'Warning' : 'Passed',
+      description: 'Change impact on protocol liquidity assessed'
+    });
+  }
+  
+  return baseRules;
+}
+
+function generateRelatedUpdates(currentId: number): string[] {
+  const relatedCount = Math.floor(Math.random() * 3);
+  const related: string[] = [];
+  
+  for (let i = 0; i < relatedCount; i++) {
+    const relatedId = Math.floor(Math.random() * 75) + 1;
+    if (relatedId !== currentId) {
+      related.push(`update-${relatedId}`);
+    }
+  }
+  
+  return related;
+}
+
+function generateReason(parameter: ParameterType, stewardType: string): string {
+  const reasons = stewardType === 'Automated' ? [
+    'Market volatility threshold exceeded',
+    'Utilization rate optimization',
+    'Risk model adjustment',
+    'Automated rebalancing trigger',
+    'Protocol safety mechanism',
+  ] : [
+    'Community governance proposal',
+    'Risk committee recommendation',
+    'Emergency protocol action',
+    'Strategic parameter adjustment',
+    'Market condition response',
+  ];
+  
+  return reasons[Math.floor(Math.random() * reasons.length)];
+}
+
+function getImpactDescription(parameter: ParameterType, riskLevel: Impact['riskLevel']): string {
+  const descriptions = {
+    'Supply Cap': {
+      Low: 'Minor adjustment to supply limit with minimal market impact',
+      Medium: 'Moderate supply cap change affecting borrowing capacity',
+      High: 'Significant supply restriction impacting protocol liquidity',
+      Critical: 'Major supply cap reduction with severe market implications'
+    },
+    'LTV': {
+      Low: 'Small collateral ratio adjustment',
+      Medium: 'Moderate LTV change affecting borrowing power',
+      High: 'Significant collateral requirement increase',
+      Critical: 'Major LTV reduction triggering liquidation risk'
+    },
+    // Add more as needed
+  };
+  
+  return descriptions[parameter as keyof typeof descriptions]?.[riskLevel] || 
+    `${riskLevel} impact parameter adjustment for ${parameter}`;
+}
+
 // Helper function to calculate dashboard stats
 export const getDashboardStats = () => {
   const todaysUpdates = getTodaysUpdates();
@@ -147,5 +278,116 @@ export const getDashboardStats = () => {
     automatedUpdates: mockUpdates.filter(u => u.stewardType === 'Automated').length,
     successfulUpdates: mockUpdates.filter(u => u.status === 'Success').length,
     failedUpdates: mockUpdates.filter(u => u.status === 'Failed').length,
+  };
+};
+
+// Generate chart data for timeline visualization
+export const generateChartData = (updates: ParameterUpdate[]): ChartDataPoint[] => {
+  const chartData: { [key: string]: ChartDataPoint } = {};
+  
+  // Generate data for the last 30 days
+  for (let i = 29; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    date.setHours(0, 0, 0, 0);
+    
+    const dateKey = date.toISOString().split('T')[0];
+    chartData[dateKey] = {
+      date,
+      count: 0,
+      manual: 0,
+      automated: 0,
+    };
+  }
+  
+  // Populate with actual update data
+  updates.forEach(update => {
+    const dateKey = update.timestamp.toISOString().split('T')[0];
+    if (chartData[dateKey]) {
+      chartData[dateKey].count++;
+      if (update.stewardType === 'Manual') {
+        chartData[dateKey].manual++;
+      } else {
+        chartData[dateKey].automated++;
+      }
+    }
+  });
+  
+  return Object.values(chartData).sort((a, b) => a.date.getTime() - b.date.getTime());
+};
+
+// Generate heatmap data
+export const generateHeatmapData = (updates: ParameterUpdate[]): HeatmapDataPoint[] => {
+  const heatmapData: { [key: string]: HeatmapDataPoint } = {};
+  
+  updates.forEach(update => {
+    const key = `${update.asset.symbol}-${update.network.id}`;
+    if (!heatmapData[key]) {
+      heatmapData[key] = {
+        asset: update.asset.symbol,
+        network: update.network.name,
+        count: 0,
+        lastUpdate: update.timestamp,
+      };
+    }
+    heatmapData[key].count++;
+    if (update.timestamp > heatmapData[key].lastUpdate) {
+      heatmapData[key].lastUpdate = update.timestamp;
+    }
+  });
+  
+  return Object.values(heatmapData);
+};
+
+// Calculate enhanced stats
+export const calculateStats = (updates: ParameterUpdate[]): StatsData => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  const todaysUpdates = updates.filter(u => {
+    const updateDate = new Date(u.timestamp);
+    updateDate.setHours(0, 0, 0, 0);
+    return updateDate.getTime() === today.getTime();
+  });
+  
+  // Most active asset
+  const assetCounts: { [key: string]: number } = {};
+  updates.forEach(u => {
+    assetCounts[u.asset.symbol] = (assetCounts[u.asset.symbol] || 0) + 1;
+  });
+  const mostActiveAsset = Object.entries(assetCounts).reduce((max, [symbol, count]) => 
+    count > max.count ? { symbol, count } : max, { symbol: '', count: 0 });
+  
+  // Most active network
+  const networkCounts: { [key: string]: number } = {};
+  updates.forEach(u => {
+    networkCounts[u.network.name] = (networkCounts[u.network.name] || 0) + 1;
+  });
+  const mostActiveNetwork = Object.entries(networkCounts).reduce((max, [name, count]) => 
+    count > max.count ? { name, count } : max, { name: '', count: 0 });
+  
+  // Average time between updates (in hours)
+  const sortedUpdates = [...updates].sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+  let totalTimeDiff = 0;
+  for (let i = 1; i < sortedUpdates.length; i++) {
+    totalTimeDiff += sortedUpdates[i].timestamp.getTime() - sortedUpdates[i-1].timestamp.getTime();
+  }
+  const averageTimeBetween = sortedUpdates.length > 1 ? 
+    totalTimeDiff / (sortedUpdates.length - 1) / (1000 * 60 * 60) : 0;
+  
+  // Other calculations
+  const successfulUpdates = updates.filter(u => u.status === 'Success').length;
+  const automatedUpdates = updates.filter(u => u.stewardType === 'Automated').length;
+  const criticalUpdates = updates.filter(u => u.impact?.riskLevel === 'Critical').length;
+  
+  return {
+    totalUpdates: updates.length,
+    totalToday: todaysUpdates.length,
+    mostActiveAsset,
+    mostActiveNetwork,
+    averageTimeBetween,
+    successRate: updates.length > 0 ? (successfulUpdates / updates.length) * 100 : 0,
+    automationRate: updates.length > 0 ? (automatedUpdates / updates.length) * 100 : 0,
+    criticalUpdates,
   };
 };
