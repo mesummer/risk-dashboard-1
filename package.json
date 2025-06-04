@@ -1,32 +1,36 @@
 {
-  "name": "risk-dashboard-1",
-  "version": "1.0.0",
-  "description": "TypeScript project boilerplate",
-  "main": "dist/index.js",
+  "name": "risk-steward-dashboard",
+  "private": true,
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-static.js",
-    "build:ts": "npx tsc",
-    "start": "node dist/index.js",
-    "dev": "npx ts-node src/index.ts",
-    "watch": "npx nodemon --exec ts-node src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mesummer/risk-dashboard.git"
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "lucide-react": "^0.460.0",
+    "date-fns": "^3.6.0",
+    "recharts": "^2.12.7",
+    "clsx": "^2.1.1"
   },
-  "keywords": ["typescript", "boilerplate", "node"],
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mesummer/risk-dashboard/issues"
-  },
-  "homepage": "https://github.com/mesummer/risk-dashboard#readme",
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "nodemon": "^3.0.0",
-    "ts-node": "^10.9.0",
-    "typescript": "^5.0.0"
+    "@eslint/js": "^9.25.0",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^9.25.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.30.1",
+    "vite": "^6.3.5"
   }
 }
