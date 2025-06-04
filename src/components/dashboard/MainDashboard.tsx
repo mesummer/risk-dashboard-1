@@ -28,11 +28,7 @@ export const MainDashboard = ({
   
   // Use the standalone filters hook for this component
   const {
-    filters,
     filteredUpdates,
-    filterPanel,
-    searchBar,
-    filterChips,
     hasActiveFilters,
     clearAllFilters
   } = useFiltersStandalone(updates);

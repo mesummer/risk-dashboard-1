@@ -194,7 +194,6 @@ interface DetailedStatsProps {
 }
 
 export const DetailedStats = ({ updates }: DetailedStatsProps) => {
-  const _stats = useMemo(() => calculateStats(updates), [updates]);
   
   // Calculate additional detailed metrics
   const detailedMetrics = useMemo(() => {
