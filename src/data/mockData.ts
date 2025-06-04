@@ -180,7 +180,7 @@ function generateImpact(parameter: ParameterType): Impact {
   };
 }
 
-function generateMarketContext(asset: Asset): MarketContext {
+function generateMarketContext(_asset: Asset): MarketContext {
   return {
     priceChange24h: (Math.random() - 0.5) * 20, // -10% to +10%
     volume24h: `$${(Math.random() * 100 + 10).toFixed(1)}M`,
@@ -192,14 +192,15 @@ function generateMarketContext(asset: Asset): MarketContext {
 }
 
 function generateValidationRules(parameter: ParameterType, status: string): ValidationRule[] {
-  const baseRules = [
-    { rule: 'Range Validation', status: 'Passed' as const, description: 'Value within acceptable range' },
-    { rule: 'Authorization Check', status: 'Passed' as const, description: 'Caller has required permissions' },
-    { rule: 'Time Lock Compliance', status: 'Passed' as const, description: 'Time lock period respected' },
+  const baseRules: ValidationRule[] = [
+    { rule: 'Range Validation', status: 'Passed', description: 'Value within acceptable range' },
+    { rule: 'Authorization Check', status: 'Passed', description: 'Caller has required permissions' },
+    { rule: 'Time Lock Compliance', status: 'Passed', description: 'Time lock period respected' },
   ];
   
   if (status === 'Failed') {
-    baseRules[Math.floor(Math.random() * baseRules.length)].status = 'Failed';
+    const randomIndex = Math.floor(Math.random() * baseRules.length);
+    baseRules[randomIndex] = { ...baseRules[randomIndex], status: 'Failed' };
   }
   
   if (parameter.includes('Cap')) {
@@ -227,7 +228,7 @@ function generateRelatedUpdates(currentId: number): string[] {
   return related;
 }
 
-function generateReason(parameter: ParameterType, stewardType: string): string {
+function generateReason(_parameter: ParameterType, stewardType: string): string {
   const reasons = stewardType === 'Automated' ? [
     'Market volatility threshold exceeded',
     'Utilization rate optimization',

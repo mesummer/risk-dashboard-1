@@ -8,7 +8,7 @@ import { UpdateDetailModal } from '../modals/UpdateDetailModal';
 import { ViewHeader } from '../navigation/ViewToggle';
 import { useFiltersStandalone } from '../../hooks/useFilters';
 import { useViewState } from '../../hooks/useViewState';
-import type { ParameterUpdate, ViewMode } from '../../types';
+import type { ParameterUpdate } from '../../types';
 import { cn } from '../../utils';
 
 interface MainDashboardProps {
@@ -74,7 +74,7 @@ export const MainDashboard = ({
     const items = [{ label: 'Dashboard' }];
     
     if (hasActiveFilters) {
-      items.push({ label: 'Filtered Results', isActive: false });
+      items.push({ label: 'Filtered Results' });
     }
     
     const viewLabels = {
@@ -84,8 +84,7 @@ export const MainDashboard = ({
     };
     
     items.push({ 
-      label: viewLabels[currentView], 
-      isActive: true 
+      label: viewLabels[currentView]
     });
     
     return items;
@@ -99,11 +98,6 @@ export const MainDashboard = ({
             updates={filteredUpdates}
             onUpdateClick={handleUpdateClick}
             isLoading={isLoading}
-            showFilters={showFilters}
-            onToggleFilters={() => setShowFilters(!showFilters)}
-            filterPanel={filterPanel}
-            searchBar={searchBar}
-            filterChips={filterChips}
           />
         );
       

@@ -14,7 +14,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { format } from 'date-fns';
-import type { ParameterUpdate, ChartDataPoint } from '../../types';
+import type { ParameterUpdate } from '../../types';
 import { generateChartData } from '../../data/mockData';
 
 interface UpdateChartProps {
@@ -186,7 +186,7 @@ export const UpdateChart = ({
         );
 
       default:
-        return null;
+        return <div>Unsupported chart type</div>;
     }
   };
 

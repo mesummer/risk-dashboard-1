@@ -145,6 +145,25 @@ export function useFilters(updates: ParameterUpdate[]) {
 }
 
 // Helper functions
+function getFilterOptions(updates: ParameterUpdate[]) {
+  const networks = Array.from(new Set(updates.map(u => u.network.id)))
+    .map(id => {
+      const update = updates.find(u => u.network.id === id);
+      return { value: id, label: update?.network.name || id };
+    });
+
+  const assets = Array.from(new Set(updates.map(u => u.asset.symbol)))
+    .map(symbol => {
+      const update = updates.find(u => u.asset.symbol === symbol);
+      return { value: symbol, label: `${symbol} - ${update?.asset.name || symbol}` };
+    });
+
+  const parameters = Array.from(new Set(updates.map(u => u.parameter)))
+    .map(param => ({ value: param, label: param }));
+
+  return { networks, assets, parameters };
+}
+
 function parseTimeRangeFromUrl(timeRangeStr: string | null): TimeRange {
   if (!timeRangeStr) return { preset: '30d' };
   

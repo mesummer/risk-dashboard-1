@@ -37,33 +37,6 @@ export const UpdateDetailModal = ({
     { id: 'technical' as const, label: 'Technical', icon: Shield },
   ];
 
-  const getRiskLevelColor = (riskLevel?: string) => {
-    switch (riskLevel) {
-      case 'Critical':
-        return 'text-red-600 bg-red-50 border-red-200';
-      case 'High':
-        return 'text-orange-600 bg-orange-50 border-orange-200';
-      case 'Medium':
-        return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case 'Low':
-        return 'text-green-600 bg-green-50 border-green-200';
-      default:
-        return 'text-gray-600 bg-gray-50 border-gray-200';
-    }
-  };
-
-  const getValidationIcon = (status: string) => {
-    switch (status) {
-      case 'Passed':
-        return <CheckCircle className="w-4 h-4 text-green-600" />;
-      case 'Failed':
-        return <X className="w-4 h-4 text-red-600" />;
-      case 'Warning':
-        return <AlertTriangle className="w-4 h-4 text-yellow-600" />;
-      default:
-        return <Clock className="w-4 h-4 text-gray-600" />;
-    }
-  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">

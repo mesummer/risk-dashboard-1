@@ -11,7 +11,7 @@ import {
   Calendar,
   BarChart3
 } from 'lucide-react';
-import type { ParameterUpdate, StatsData } from '../../types';
+import type { ParameterUpdate } from '../../types';
 import { calculateStats } from '../../data/mockData';
 import { cn } from '../../utils';
 
@@ -194,7 +194,7 @@ interface DetailedStatsProps {
 }
 
 export const DetailedStats = ({ updates }: DetailedStatsProps) => {
-  const stats = useMemo(() => calculateStats(updates), [updates]);
+  const _stats = useMemo(() => calculateStats(updates), [updates]);
   
   // Calculate additional detailed metrics
   const detailedMetrics = useMemo(() => {
