@@ -1,8 +1,8 @@
-export function greet(name: string): string {
+function greet(name) {
   return `Hello, ${name}!`;
 }
 
-export function main(): void {
+function main() {
   console.log(greet("TypeScript"));
   console.log("Welcome to your TypeScript project!");
   console.log("🚀 This TypeScript code has been compiled and is running!");
@@ -13,3 +13,6 @@ export function main(): void {
 if (typeof window === 'undefined') {
   main();
 }
+// Export functions for browser use
+window.greet = greet;
+window.main = main;
