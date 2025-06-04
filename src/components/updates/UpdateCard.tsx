@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight, Clock, CheckCircle, XCircle, AlertCircle, ExternalLink } from 'lucide-react';
-import { ParameterUpdate } from '../../types';
+import type { ParameterUpdate } from '../../types';
 import { formatRelativeTime, truncateHash, getStatusColor, getStewardTypeColor, cn } from '../../utils';
 
 interface UpdateCardProps {

@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Header } from './components/layout/Header';
 import { UpdatesTimeline } from './components/updates/UpdatesTimeline';
 import { mockUpdates, getDashboardStats } from './data/mockData';
-import { ParameterUpdate } from './types';
+import type { ParameterUpdate } from './types';
 
 function App() {
-  const [selectedUpdate, setSelectedUpdate] = useState<ParameterUpdate | null>(null);
   const stats = getDashboardStats();
 
   const handleUpdateClick = (update: ParameterUpdate) => {
-    setSelectedUpdate(update);
     // For now, just log the update. In a real app, this could open a modal or navigate to a detail page
     console.log('Selected update:', update);
   };

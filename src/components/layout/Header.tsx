@@ -1,6 +1,6 @@
 import React from 'react';
 import { Shield, TrendingUp, Network, Clock, CheckCircle, XCircle } from 'lucide-react';
-import { DashboardStats } from '../../types';
+import type { DashboardStats } from '../../types';
 
 interface HeaderProps {
   stats: DashboardStats;

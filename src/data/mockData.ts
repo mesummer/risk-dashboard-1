@@ -1,4 +1,4 @@
-import { ParameterUpdate, Asset, Network, ParameterType } from '../types';
+import type { ParameterUpdate, Asset, Network, ParameterType } from '../types';
 
 export const networks: Network[] = [
   { id: 'ethereum', name: 'Ethereum', chainId: 1, icon: '🔷' },

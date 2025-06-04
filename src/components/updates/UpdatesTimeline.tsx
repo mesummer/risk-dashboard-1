@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import { Filter, Search, Calendar } from 'lucide-react';
-import { ParameterUpdate } from '../../types';
+import { Search, Calendar } from 'lucide-react';
+import type { ParameterUpdate } from '../../types';
 import { UpdateCard } from './UpdateCard';
-import { format, isToday, isYesterday, startOfDay, isSameDay } from 'date-fns';
+import { format, isToday, isYesterday, startOfDay } from 'date-fns';
 
 interface UpdatesTimelineProps {
   updates: ParameterUpdate[];
