@@ -175,7 +175,7 @@ export const MainDashboard = ({
                   Filters
                   {hasActiveFilters && (
                     <span className="ml-1 px-1.5 py-0.5 text-xs bg-blue-600 text-white rounded-full">
-                      {Object.values(filters).flat().filter(Boolean).length}
+                      •
                     </span>
                   )}
                 </button>
