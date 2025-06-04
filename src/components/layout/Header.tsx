@@ -1,4 +1,3 @@
-import React from 'react';
 import { Shield, TrendingUp, Network, Clock, CheckCircle, XCircle } from 'lucide-react';
 import type { DashboardStats } from '../../types';
 
@@ -6,7 +5,7 @@ interface HeaderProps {
   stats: DashboardStats;
 }
 
-export const Header: React.FC<HeaderProps> = ({ stats }) => {
+export const Header = ({ stats }: HeaderProps) => {
   const statCards = [
     {
       label: 'Updates Today',

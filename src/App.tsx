@@ -1,4 +1,3 @@
-import React from 'react';
 import { Header } from './components/layout/Header';
 import { UpdatesTimeline } from './components/updates/UpdatesTimeline';
 import { mockUpdates, getDashboardStats } from './data/mockData';

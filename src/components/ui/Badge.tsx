@@ -1,19 +1,19 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import { cn } from '../../utils';
 
 interface BadgeProps {
-  children: React.ReactNode;
+  children: ReactNode;
   variant?: 'default' | 'success' | 'error' | 'warning' | 'manual' | 'automated';
   size?: 'sm' | 'md';
   className?: string;
 }
 
-export const Badge: React.FC<BadgeProps> = ({ 
+export const Badge = ({ 
   children, 
   variant = 'default', 
   size = 'md',
   className 
-}) => {
+}: BadgeProps) => {
   const baseClasses = 'inline-flex items-center justify-center font-medium rounded-full border';
   
   const sizeClasses = {

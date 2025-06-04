@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Search, Calendar } from 'lucide-react';
 import type { ParameterUpdate } from '../../types';
 import { UpdateCard } from './UpdateCard';
@@ -9,10 +9,10 @@ interface UpdatesTimelineProps {
   onUpdateClick?: (update: ParameterUpdate) => void;
 }
 
-export const UpdatesTimeline: React.FC<UpdatesTimelineProps> = ({
+export const UpdatesTimeline = ({
   updates,
   onUpdateClick
-}) => {
+}: UpdatesTimelineProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [stewardFilter, setStewardFilter] = useState<string>('all');

@@ -1,4 +1,3 @@
-import React from 'react';
 import { ArrowRight, Clock, CheckCircle, XCircle, AlertCircle, ExternalLink } from 'lucide-react';
 import type { ParameterUpdate } from '../../types';
 import { formatRelativeTime, truncateHash, getStatusColor, getStewardTypeColor, cn } from '../../utils';
@@ -8,7 +7,7 @@ interface UpdateCardProps {
   onClick?: () => void;
 }
 
-export const UpdateCard: React.FC<UpdateCardProps> = ({ update, onClick }) => {
+export const UpdateCard = ({ update, onClick }: UpdateCardProps) => {
   const statusColor = getStatusColor(update.status);
   const stewardTypeColor = getStewardTypeColor(update.stewardType);
 
