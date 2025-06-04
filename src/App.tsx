@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { Header } from './components/layout/Header';
-import { UpdatesTimeline } from './components/updates/UpdatesTimeline';
+import { EnhancedUpdatesTimeline } from './components/updates/EnhancedUpdatesTimeline';
 import { mockUpdates, getDashboardStats } from './data/mockData';
 import type { ParameterUpdate } from './types';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
   const stats = getDashboardStats();
 
   const handleUpdateClick = (update: ParameterUpdate) => {
@@ -12,19 +14,20 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header stats={stats} />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <UpdatesTimeline 
+      <main className="flex-1 flex overflow-hidden">
+        <EnhancedUpdatesTimeline 
           updates={mockUpdates} 
           onUpdateClick={handleUpdateClick}
+          isLoading={isLoading}
         />
       </main>
       
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <footer className="bg-white border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="text-center text-sm text-gray-600">
             <p>RiskSteward Parameter Updates Dashboard</p>
             <p className="mt-1">Real-time monitoring and analytics for DeFi risk management</p>

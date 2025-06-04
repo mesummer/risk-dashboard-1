@@ -4,16 +4,21 @@ A modern React TypeScript dashboard for monitoring parameter updates across DeFi
 
 ## ✨ Features
 
-- **Real-time Updates Timeline**: Chronological display of all parameter updates
-- **Advanced Filtering**: Filter by status, steward type, network, and search functionality
+- **Advanced Filtering System**: Comprehensive sidebar with multi-select filters
+- **Smart Search**: Real-time search with autocomplete suggestions
+- **Filter Management**: Active filter chips with individual removal
+- **URL State Persistence**: Shareable filtered views via URL parameters
 - **Responsive Design**: Mobile-friendly interface that works on all devices
 - **Rich Data Visualization**: Color-coded cards showing update details
 - **Network Support**: Multi-network support (Ethereum, Polygon, Arbitrum, etc.)
 - **Parameter Types**: Support for all major DeFi parameters (Supply Cap, LTV, etc.)
+- **Pagination**: Efficient handling of large datasets
+- **Loading States**: Smooth UX with loading and empty state components
 
 ## 🛠️ Tech Stack
 
 - **React 18** - Modern React with TypeScript
+- **React Router DOM** - URL-based state management
 - **Vite** - Fast build tool and dev server
 - **Tailwind CSS** - Utility-first CSS framework
 - **Lucide React** - Beautiful icons
@@ -48,12 +53,20 @@ A modern React TypeScript dashboard for monitoring parameter updates across DeFi
 ```
 src/
 ├── components/
-│   ├── ui/           # Reusable UI components (Badge, etc.)
+│   ├── ui/           # Reusable UI components
+│   ├── filters/      # Advanced filtering components
+│   │   ├── FilterPanel.tsx
+│   │   ├── FilterChips.tsx
+│   │   └── SearchBar.tsx
 │   ├── updates/      # Update-related components
 │   │   ├── UpdateCard.tsx
-│   │   └── UpdatesTimeline.tsx
+│   │   ├── UpdatesTimeline.tsx
+│   │   └── EnhancedUpdatesTimeline.tsx
+│   ├── states/       # Loading and empty state components
 │   └── layout/       # Layout components
-│       └── Header.tsx
+├── hooks/            # Custom React hooks
+│   ├── useFilters.ts
+│   └── useFiltersStandalone.ts
 ├── types/            # TypeScript type definitions
 ├── utils/            # Utility functions
 ├── data/             # Mock data and data helpers

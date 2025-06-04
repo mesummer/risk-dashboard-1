@@ -49,3 +49,31 @@ export interface DashboardStats {
   successfulUpdates: number;
   failedUpdates: number;
 }
+
+export interface FilterState {
+  networks: string[];
+  assets: string[];
+  parameters: ParameterType[];
+  stewardType: 'all' | 'Manual' | 'Automated';
+  timeRange: TimeRange;
+  status: ('Success' | 'Failed' | 'Pending')[];
+  search: string;
+}
+
+export interface TimeRange {
+  preset: '24h' | '7d' | '30d' | 'custom';
+  startDate?: Date;
+  endDate?: Date;
+}
+
+export interface FilterOption {
+  value: string;
+  label: string;
+  count?: number;
+}
+
+export interface SearchSuggestion {
+  type: 'asset' | 'parameter' | 'network' | 'hash';
+  value: string;
+  label: string;
+}
