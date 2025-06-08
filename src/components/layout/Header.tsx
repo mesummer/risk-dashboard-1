@@ -46,8 +46,7 @@ export const Header = ({ stats }: HeaderProps) => {
   ];
 
   return (
-    <div className="bg-white border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-6">
         {/* Title */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
@@ -113,6 +112,5 @@ export const Header = ({ stats }: HeaderProps) => {
           </div>
         </div>
       </div>
-    </div>
   );
 };

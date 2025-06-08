@@ -19,12 +19,10 @@ function App() {
       </main>
       
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="text-center text-sm text-gray-600">
-            <p>RiskSteward Parameter Updates Dashboard</p>
-            <p className="mt-1">Real-time monitoring and analytics for DeFi risk management</p>
-          </div>
+      <footer className="bg-white border-t border-gray-200 px-4 sm:px-6 lg:px-8 py-4">
+        <div className="text-center text-sm text-gray-600">
+          <p>RiskSteward Parameter Updates Dashboard</p>
+          <p className="mt-1">Real-time monitoring and analytics for DeFi risk management</p>
         </div>
       </footer>
     </div>
