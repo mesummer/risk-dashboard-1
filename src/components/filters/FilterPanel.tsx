@@ -11,7 +11,7 @@ import {
   User,
   CheckCircle
 } from 'lucide-react';
-import type { FilterState, FilterOption, ParameterUpdate, ParameterType } from '../../types';
+import type { FilterState, FilterOption, ParameterUpdate, ParameterType, TimeRange } from '../../types';
 import { cn } from '../../utils';
 
 interface FilterPanelProps {
@@ -225,7 +225,7 @@ export const FilterPanel = ({
 // Filter Section Component
 interface FilterSectionProps {
   title: string;
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
   isExpanded: boolean;
   onToggle: () => void;
   children: React.ReactNode;
@@ -361,7 +361,9 @@ const TimeRangeFilter = ({ timeRange, onChange }: TimeRangeFilterProps) => {
               name="timeRange"
               value={option.value}
               checked={timeRange.preset === option.value}
-              onChange={(e) => onChange({ preset: e.target.value as any })}
+              onChange={(e) =>
+                onChange({ preset: e.target.value as TimeRange['preset'] })
+              }
               className="border-gray-300 text-blue-600 focus:ring-blue-500"
             />
             <span className="text-sm text-gray-700">{option.label}</span>
