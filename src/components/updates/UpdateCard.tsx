@@ -31,7 +31,7 @@ export const UpdateCard = ({ update, onClick }: UpdateCardProps) => {
       onClick={onClick}
     >
       {/* Header */}
-      <div className="flex items-start justify-between mb-3">
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <span className="text-lg">{update.network.icon}</span>
           <div>
@@ -44,11 +44,14 @@ export const UpdateCard = ({ update, onClick }: UpdateCardProps) => {
         </div>
         
         <div className="flex items-center gap-2">
-          <span className={cn("px-2 py-1 text-xs font-medium rounded-full border", statusColor)}>
-            <span className="flex items-center gap-1">
-              {getStatusIcon()}
-              {update.status}
-            </span>
+          <span
+            className={cn(
+              "px-2 py-1 text-xs font-medium rounded-full border inline-flex items-center gap-1",
+              statusColor
+            )}
+          >
+            {getStatusIcon()}
+            {update.status}
           </span>
         </div>
       </div>
@@ -77,7 +80,12 @@ export const UpdateCard = ({ update, onClick }: UpdateCardProps) => {
       {/* Footer */}
       <div className="flex items-center justify-between pt-2 border-t border-gray-100">
         <div className="flex items-center gap-2">
-          <span className={cn("px-2 py-1 text-xs font-medium rounded-full border", stewardTypeColor)}>
+          <span
+            className={cn(
+              "px-2 py-1 text-xs font-medium rounded-full border inline-flex items-center gap-1",
+              stewardTypeColor
+            )}
+          >
             {update.stewardType}
           </span>
           {update.initiator && (
