@@ -180,12 +180,12 @@ function generateImpact(parameter: ParameterType): Impact {
   };
 }
 
-function generateMarketContext(_asset: Asset): MarketContext {
+function generateMarketContext(asset: Asset): MarketContext {
   return {
     priceChange24h: (Math.random() - 0.5) * 20, // -10% to +10%
     volume24h: `$${(Math.random() * 100 + 10).toFixed(1)}M`,
     marketCap: `$${(Math.random() * 1000 + 100).toFixed(1)}M`,
-    totalSupply: `${(Math.random() * 1000000 + 100000).toFixed(0)}`,
+    totalSupply: `${(Math.random() * 1000000 + 100000).toFixed(0)} ${asset.symbol}`,
     utilizationRate: Math.random() * 100,
     averageApr: Math.random() * 15 + 2,
   };

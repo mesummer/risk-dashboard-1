@@ -13,8 +13,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import type { TooltipProps } from 'recharts/types/component/Tooltip';
 import { format } from 'date-fns';
-import type { ParameterUpdate } from '../../types';
+import type { ParameterUpdate, ChartDataPoint } from '../../types';
 import { generateChartData } from '../../data/mockData';
 
 interface UpdateChartProps {
@@ -36,7 +37,11 @@ export const UpdateChart = ({
     return format(new Date(date), 'MMM dd, yyyy');
   };
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+    label,
+  }: TooltipProps<number, string>) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
@@ -76,7 +81,7 @@ export const UpdateChart = ({
     return format(new Date(date), 'MMM dd');
   };
 
-  const handleChartClick = (data: any) => {
+  const handleChartClick = (data: { activePayload?: Array<{ payload: ChartDataPoint }> }) => {
     if (onTimeRangeClick && data?.activePayload?.[0]?.payload) {
       const clickedDate = new Date(data.activePayload[0].payload.date);
       onTimeRangeClick(clickedDate, clickedDate);

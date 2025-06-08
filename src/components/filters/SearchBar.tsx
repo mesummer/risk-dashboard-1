@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { Search, X, Hash, Coins, Network, Settings } from 'lucide-react';
 import type { ParameterUpdate, SearchSuggestion } from '../../types';
 import { cn } from '../../utils';
@@ -89,6 +89,16 @@ export const SearchBar = ({
     return results.slice(0, 8); // Limit to 8 suggestions
   }, [value, updates]);
 
+  const handleSuggestionSelect = useCallback(
+    (suggestion: SearchSuggestion) => {
+      onChange(suggestion.value);
+      setIsOpen(false);
+      setHighlightedIndex(-1);
+      inputRef.current?.blur();
+    },
+    [onChange]
+  );
+
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -122,7 +132,7 @@ export const SearchBar = ({
       document.addEventListener('keydown', handleKeyDown);
       return () => document.removeEventListener('keydown', handleKeyDown);
     }
-  }, [isOpen, suggestions, highlightedIndex]);
+  }, [isOpen, suggestions, highlightedIndex, handleSuggestionSelect]);
 
   // Scroll highlighted item into view
   useEffect(() => {
@@ -140,13 +150,6 @@ export const SearchBar = ({
     onChange(newValue);
     setIsOpen(true);
     setHighlightedIndex(-1);
-  };
-
-  const handleSuggestionSelect = (suggestion: SearchSuggestion) => {
-    onChange(suggestion.value);
-    setIsOpen(false);
-    setHighlightedIndex(-1);
-    inputRef.current?.blur();
   };
 
   const handleClear = () => {
