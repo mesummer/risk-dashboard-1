@@ -140,7 +140,7 @@ export const MainDashboard = ({
   }
 
   return (
-    <div className={cn("flex flex-col h-full", className)}>
+    <div className={cn("flex flex-col h-full w-full px-4 sm:px-6 lg:px-8", className)}>
       {/* Dashboard Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <ViewHeader
