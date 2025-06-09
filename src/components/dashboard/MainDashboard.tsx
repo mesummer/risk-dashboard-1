@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import { ArrowLeft, Filter as FilterIcon } from 'lucide-react';
 import { EnhancedUpdatesTimeline } from '../updates/EnhancedUpdatesTimeline';
 import { UpdateChart } from '../charts/UpdateChart';
 import { HeatmapView } from '../charts/HeatmapView';
@@ -22,9 +21,8 @@ export const MainDashboard = ({
   isLoading = false,
   className 
 }: MainDashboardProps) => {
-  const { currentView, setCurrentView, canGoBack, goToPreviousView } = useViewState('timeline');
+  const { currentView, setCurrentView } = useViewState('timeline');
   const [selectedUpdate, setSelectedUpdate] = useState<ParameterUpdate | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
   
   // Use the standalone filters hook for this component
   const {
@@ -151,35 +149,6 @@ export const MainDashboard = ({
           subtitle={`Monitoring ${filteredUpdates.length} updates across DeFi protocols`}
           actions={
             <div className="flex items-center gap-3">
-              {canGoBack && (
-                <button
-                  onClick={goToPreviousView}
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  Back
-                </button>
-              )}
-              
-              {currentView === 'timeline' && (
-                <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className={cn(
-                    "flex items-center gap-2 px-3 py-2 text-sm rounded-lg transition-colors",
-                    showFilters || hasActiveFilters
-                      ? "bg-blue-100 text-blue-700"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                  )}
-                >
-                  <FilterIcon className="w-4 h-4" />
-                  Filters
-                  {hasActiveFilters && (
-                    <span className="ml-1 px-1.5 py-0.5 text-xs bg-blue-600 text-white rounded-full">
-                      •
-                    </span>
-                  )}
-                </button>
-              )}
               
               {hasActiveFilters && (
                 <button
