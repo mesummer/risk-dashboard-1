@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import { Filter } from 'lucide-react';
 import type { ParameterUpdate } from '../../types';
 import { UpdateCard } from './UpdateCard';
 import { SearchBar } from '../filters/SearchBar';
@@ -104,19 +103,6 @@ export const EnhancedUpdatesTimeline = ({
               />
             </div>
 
-            {/* Filter Toggle Button (Mobile) */}
-            <button
-              onClick={() => setIsFilterPanelOpen(!isFilterPanelOpen)}
-              className="lg:hidden flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-            >
-              <Filter className="w-4 h-4" />
-              Filters
-              {activeFilterCount > 0 && (
-                <span className="ml-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full">
-                  {activeFilterCount}
-                </span>
-              )}
-            </button>
           </div>
         </div>
 
@@ -144,14 +130,6 @@ export const EnhancedUpdatesTimeline = ({
               )}
             </p>
             
-            {/* Desktop Filter Toggle */}
-            <button
-              onClick={() => setIsFilterPanelOpen(!isFilterPanelOpen)}
-              className="hidden lg:flex items-center gap-2 px-3 py-1 text-sm font-medium text-gray-700 hover:bg-white rounded transition-colors"
-            >
-              <Filter className="w-4 h-4" />
-              {isFilterPanelOpen ? 'Hide' : 'Show'} Filters
-            </button>
           </div>
         </div>
 
