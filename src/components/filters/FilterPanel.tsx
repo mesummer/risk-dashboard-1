@@ -101,33 +101,42 @@ export const FilterPanel = ({
 
       {/* Filter panel */}
       <div className={cn(
-        "fixed left-0 top-0 h-full w-80 bg-white border-r border-gray-200 z-50 transform transition-transform duration-300 lg:relative lg:translate-x-0",
+        "fixed left-0 top-0 h-full w-80 bg-white border-r border-gray-200 z-50 transform transition-transform duration-300 lg:relative lg:translate-x-0 flex flex-col",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <div className="flex items-center gap-2">
-            <Filter className="w-5 h-5 text-gray-600" />
-            <h2 className="font-semibold text-gray-900">Filters</h2>
+        {/* Header - matches main content header height */}
+        <div className="bg-white border-b border-gray-200 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Filter className="w-5 h-5 text-gray-600" />
+              <h2 className="font-semibold text-gray-900">Filters</h2>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={onClearFilters}
+                className="text-sm text-blue-600 hover:text-blue-800"
+              >
+                Clear All
+              </button>
+              <button
+                onClick={onToggle}
+                className="p-1 hover:bg-gray-100 rounded lg:hidden"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={onClearFilters}
-              className="text-sm text-blue-600 hover:text-blue-800"
-            >
-              Clear All
-            </button>
-            <button
-              onClick={onToggle}
-              className="p-1 hover:bg-gray-100 rounded lg:hidden"
-            >
-              <X className="w-4 h-4" />
-            </button>
+        </div>
+
+        {/* Spacer to align with main content - matches the Results Summary section height */}
+        <div className="bg-gray-50 border-b border-gray-200 px-4 py-3">
+          <div className="text-sm text-gray-600">
+            Filter options
           </div>
         </div>
 
         {/* Filter content */}
-        <div className="overflow-y-auto h-full pb-20">
+        <div className="overflow-y-auto flex-1 pb-20">
           {/* Networks */}
           <FilterSection
             title="Networks"
