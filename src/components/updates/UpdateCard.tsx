@@ -1,4 +1,4 @@
-import { ArrowRight, Clock, CheckCircle, XCircle, AlertCircle, ExternalLink } from 'lucide-react';
+import { ArrowRight, Clock, CheckCircle, XCircle, AlertCircle, ExternalLink, Lock, Unlock } from 'lucide-react';
 import type { ParameterUpdate } from '../../types';
 import { formatRelativeTime, truncateHash, getStatusColor, getStewardTypeColor, cn } from '../../utils';
 
@@ -88,6 +88,27 @@ export const UpdateCard = ({ update, onClick }: UpdateCardProps) => {
           >
             {update.stewardType}
           </span>
+          {update.riskStewardInfo && (
+            <span 
+              className={cn(
+                "flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full border",
+                update.riskStewardInfo.canBeModified 
+                  ? "text-green-600 bg-green-50 border-green-200"
+                  : "text-orange-600 bg-orange-50 border-orange-200"
+              )}
+              title={update.riskStewardInfo.canBeModified 
+                ? "Can be modified" 
+                : `Locked for ${update.riskStewardInfo.timeUntilModificationAllowed}h`
+              }
+            >
+              {update.riskStewardInfo.canBeModified ? (
+                <Unlock className="w-3 h-3" />
+              ) : (
+                <Lock className="w-3 h-3" />
+              )}
+              {update.riskStewardInfo.canBeModified ? 'Unlocked' : 'Locked'}
+            </span>
+          )}
           {update.initiator && (
             <span className="text-xs text-gray-500 font-mono">
               by {truncateHash(update.initiator)}

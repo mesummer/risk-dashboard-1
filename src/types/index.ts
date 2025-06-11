@@ -19,6 +19,8 @@ export interface ParameterUpdate {
   marketContext?: MarketContext;
   relatedUpdates?: string[];
   validationRules?: ValidationRule[];
+  // Risk steward information
+  riskStewardInfo?: RiskStewardInfo;
 }
 
 export interface Asset {
@@ -108,6 +110,27 @@ export interface ValidationRule {
   rule: string;
   status: 'Passed' | 'Failed' | 'Warning';
   description: string;
+}
+
+export interface RiskStewardInfo {
+  allowedStewardType: 'Manual' | 'Automated' | 'Both';
+  lastModifier: string; // Address or identifier of last modifier
+  lastModificationTime: Date;
+  canBeModified: boolean;
+  timeUntilModificationAllowed?: number; // Hours remaining if cannot be modified
+  allowedChangeRange: ChangeRange;
+}
+
+export interface ChangeRange {
+  percentage: {
+    min: number;
+    max: number;
+  };
+  absolute: {
+    min: string;
+    max: string;
+    unit: string;
+  };
 }
 
 export interface ChartDataPoint {

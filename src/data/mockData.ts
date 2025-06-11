@@ -8,7 +8,9 @@ import type {
   ValidationRule,
   ChartDataPoint,
   HeatmapDataPoint,
-  StatsData
+  StatsData,
+  RiskStewardInfo,
+  ChangeRange
 } from '../types';
 
 export const networks: Network[] = [
@@ -120,6 +122,9 @@ const generateRandomUpdate = (id: number): ParameterUpdate => {
   timestamp.setHours(timestamp.getHours() - hoursAgo);
   timestamp.setMinutes(timestamp.getMinutes() - minutesAgo);
 
+  // Generate risk steward info now that timestamp is available
+  const riskStewardInfo = generateRiskStewardInfo(parameter, timestamp);
+
   return {
     id: `update-${id}`,
     timestamp,
@@ -140,6 +145,7 @@ const generateRandomUpdate = (id: number): ParameterUpdate => {
     marketContext,
     relatedUpdates,
     validationRules,
+    riskStewardInfo,
   };
 };
 
@@ -265,6 +271,97 @@ function getImpactDescription(parameter: ParameterType, riskLevel: Impact['riskL
   
   return descriptions[parameter as keyof typeof descriptions]?.[riskLevel] || 
     `${riskLevel} impact parameter adjustment for ${parameter}`;
+}
+
+function generateRiskStewardInfo(parameter: ParameterType, lastModificationTime: Date): RiskStewardInfo {
+  // Determine allowed steward type based on parameter criticality
+  const criticalParams = ['Supply Cap', 'Borrow Cap', 'LTV', 'LT', 'LB'];
+  const allowedStewardType = criticalParams.includes(parameter) 
+    ? (Math.random() > 0.7 ? 'Manual' : 'Both')
+    : (Math.random() > 0.3 ? 'Automated' : 'Both');
+
+  // Generate last modifier (address for manual, system for automated)
+  const lastModifier = Math.random() > 0.6 
+    ? `0x${Math.random().toString(16).substring(2, 42)}`
+    : 'System Automated Steward';
+
+  // Calculate if modification is allowed (72-hour rule)
+  const now = new Date();
+  const hoursSinceLastModification = (now.getTime() - lastModificationTime.getTime()) / (1000 * 60 * 60);
+  const canBeModified = hoursSinceLastModification >= 72;
+  const timeUntilModificationAllowed = canBeModified ? undefined : Math.ceil(72 - hoursSinceLastModification);
+
+  // Generate allowed change range based on parameter type
+  const allowedChangeRange = generateChangeRange(parameter);
+
+  return {
+    allowedStewardType,
+    lastModifier,
+    lastModificationTime,
+    canBeModified,
+    timeUntilModificationAllowed,
+    allowedChangeRange,
+  };
+}
+
+function generateChangeRange(parameter: ParameterType): ChangeRange {
+  switch (parameter) {
+    case 'Supply Cap':
+    case 'Borrow Cap':
+      return {
+        percentage: { min: -50, max: 100 },
+        absolute: { 
+          min: '1000000', 
+          max: '100000000', 
+          unit: 'tokens' 
+        }
+      };
+    case 'LTV':
+    case 'LT':
+    case 'LB':
+    case 'E Mode LTV':
+    case 'E Mode LT':
+    case 'E Mode LB':
+    case 'uOptimal':
+      return {
+        percentage: { min: -10, max: 10 },
+        absolute: { 
+          min: '0.1', 
+          max: '95.0', 
+          unit: '%' 
+        }
+      };
+    case 'Base Rate':
+    case 'Slope1':
+    case 'Slope2':
+    case 'Pendle Capo Discount Rate':
+      return {
+        percentage: { min: -25, max: 50 },
+        absolute: { 
+          min: '0.01', 
+          max: '20.0', 
+          unit: '%' 
+        }
+      };
+    case 'Capo Price Caps':
+      return {
+        percentage: { min: -30, max: 30 },
+        absolute: { 
+          min: '100', 
+          max: '50000', 
+          unit: 'USD' 
+        }
+      };
+    default:
+      return {
+        percentage: { min: -20, max: 20 },
+        absolute: { 
+          min: '1', 
+          max: '1000', 
+          unit: 'units' 
+        }
+      };
+  }
 }
 
 // Helper function to calculate dashboard stats

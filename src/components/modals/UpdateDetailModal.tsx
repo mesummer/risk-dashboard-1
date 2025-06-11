@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import type { ParameterUpdate } from '../../types';
 import { formatDate, formatRelativeTime, truncateHash, cn } from '../../utils';
+import { RiskStewardInfoComponent } from '../steward/RiskStewardInfo';
 
 interface UpdateDetailModalProps {
   update: ParameterUpdate | null;
@@ -220,6 +221,13 @@ const OverviewTab = ({ update }: { update: ParameterUpdate }) => {
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <p className="text-blue-800">{update.reason}</p>
           </div>
+        </div>
+      )}
+
+      {/* Risk Steward Information */}
+      {update.riskStewardInfo && (
+        <div>
+          <RiskStewardInfoComponent riskStewardInfo={update.riskStewardInfo} />
         </div>
       )}
     </div>

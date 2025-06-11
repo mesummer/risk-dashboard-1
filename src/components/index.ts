@@ -33,3 +33,6 @@ export { StatsCards, DetailedStats } from './stats/StatsCards';
 
 // Modal components
 export { UpdateDetailModal } from './modals/UpdateDetailModal';
+
+// Risk Steward components
+export { RiskStewardInfoComponent } from './steward/RiskStewardInfo';
