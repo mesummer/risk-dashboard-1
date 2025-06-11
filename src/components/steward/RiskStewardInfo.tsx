@@ -56,7 +56,7 @@ export function RiskStewardInfoComponent({ riskStewardInfo }: RiskStewardInfoPro
           <label className="text-sm font-medium text-gray-600">Modification Availability</label>
           <div className="mt-1 flex items-center gap-2">
             <Badge 
-              variant={riskStewardInfo.canBeModified ? 'success' : 'danger'}
+              variant={riskStewardInfo.canBeModified ? 'success' : 'error'}
             >
               {riskStewardInfo.canBeModified ? 'Can be modified' : 'Cannot be modified'}
             </Badge>
